@@ -16,5 +16,5 @@ class DataQualityOperator(BaseOperator):
         self.redshiftChecker = RedshiftChecker(rules,self.log,redshift_conn_id)
 
     def execute(self, context):
-        self.log.info('DataQualityOperator start')
+        self.log.info('DataQualityOperator starts')
         self.redshiftChecker.check()

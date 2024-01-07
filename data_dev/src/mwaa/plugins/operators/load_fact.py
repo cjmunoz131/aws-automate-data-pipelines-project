@@ -31,7 +31,7 @@ class LoadFactOperator(BaseOperator):
         self.table_name = table_name
 
     def execute(self, context):
-        self.log.info('LoadFactOperator start')
+        self.log.info('LoadFactOperator starts')
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id, autocommit=True)
         insert_sql = LoadFactOperator.BULK_INSERT_SQL.format(table=self.table_name,select_statement=SqlQueries.songplay_table_insert)
         redshift.run(insert_sql)

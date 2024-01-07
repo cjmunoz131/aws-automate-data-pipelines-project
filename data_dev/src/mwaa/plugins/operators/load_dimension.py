@@ -28,7 +28,7 @@ class LoadDimensionOperator(BaseOperator):
         self.select_statement = select_statement
 
     def execute(self, context):
-        self.log.info('LoadDimensionOperator start')
+        self.log.info('LoadDimensionOperator starts')
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id, autocommit=True)
         redshift.run(LoadDimensionOperator.truncate_sql.format(table=self.table_name))
         redshift.run(LoadDimensionOperator.BULK_INSERT_SQL.format(table=self.table_name,select_statement=self.select_statement))
