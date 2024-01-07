@@ -1,0 +1,5 @@
+{
+    "recreation-enable": "True",
+    "region": "us-east-1",
+    "s3_bucket": "datalake-stedi-9220231229174"
+}
