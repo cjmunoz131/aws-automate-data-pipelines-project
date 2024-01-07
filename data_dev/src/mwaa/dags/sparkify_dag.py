@@ -86,28 +86,32 @@ def final_project():
             task_id="Load_user_dim_table",
             redshift_conn_id="redshift",
             table_name=DIMENSION_USERS_TABLE_NAME,
-            select_statement=sql_transformation_statements.SqlQueries.user_table_insert
+            select_statement=sql_transformation_statements.SqlQueries.user_table_insert,
+            enableTruncate=bool(Variable.get("truncate-enable"))
         )
 
         load_song_dimension_table = LoadDimensionOperator(
             task_id="Load_song_dim_table",
             redshift_conn_id="redshift",
             table_name=DIMENSION_SONGS_TABLE_NAME,
-            select_statement=sql_transformation_statements.SqlQueries.song_table_insert
+            select_statement=sql_transformation_statements.SqlQueries.song_table_insert,
+            enableTruncate=bool(Variable.get("truncate-enable"))
         )
 
         load_artist_dimension_table = LoadDimensionOperator(
             task_id="Load_artist_dim_table",
             redshift_conn_id="redshift",
             table_name=DIMENSION_ARTISTS_TABLE_NAME,
-            select_statement=sql_transformation_statements.SqlQueries.artist_table_insert
+            select_statement=sql_transformation_statements.SqlQueries.artist_table_insert,
+            enableTruncate=bool(Variable.get("truncate-enable"))
         )
 
         load_time_dimension_table = LoadDimensionOperator(
             task_id="Load_time_dim_table",
             redshift_conn_id="redshift",
             table_name=DIMENSION_TIME_TABLE_NAME,
-            select_statement=sql_transformation_statements.SqlQueries.time_table_insert
+            select_statement=sql_transformation_statements.SqlQueries.time_table_insert,
+            enableTruncate=bool(Variable.get("truncate-enable"))
         )
 
     run_quality_checks = DataQualityOperator(
