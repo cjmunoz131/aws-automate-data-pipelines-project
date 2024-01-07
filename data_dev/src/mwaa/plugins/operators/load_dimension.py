@@ -29,6 +29,9 @@ class LoadDimensionOperator(BaseOperator):
 
     def execute(self, context):
         self.log.info('LoadDimensionOperator starts')
+        self.log.info('getting Redshift Credentials')
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id, autocommit=True)
+        self.log.info('Executing Truncate table: {}'.format(self.table_name))
         redshift.run(LoadDimensionOperator.truncate_sql.format(table=self.table_name))
+        self.log.info('Executing Bulk insert into {} Dimension Table'.format(self.table_name))
         redshift.run(LoadDimensionOperator.BULK_INSERT_SQL.format(table=self.table_name,select_statement=self.select_statement))

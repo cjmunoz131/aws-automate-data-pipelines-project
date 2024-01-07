@@ -18,3 +18,4 @@ class DataQualityOperator(BaseOperator):
     def execute(self, context):
         self.log.info('DataQualityOperator starts')
         self.redshiftChecker.check()
+        self.log.info('DataQualityOperator Data Quality Rules checked successfully')

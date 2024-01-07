@@ -41,9 +41,13 @@ class StageToRedshiftOperator(BaseOperator):
 
     def execute(self, context):
         self.log.info('StageToRedshiftOperator starts')
+        self.log.info('getting aws credentials used by the copy command')
         aws_hook = AwsHook(self.aws_credentials_id)
         credentials = aws_hook.get_credentials()
+        self.log.info('getting Redshift credentials')
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id, autocommit=True)
         s3_key_formatted = self.s3_key.format(year=context['execution_date'].year,month=context['execution_date'].month)
+        self.log.info('S3 Key Input Datasource:{}'.format(s3_key_formatted))
         final_copy_sql = StageToRedshiftOperator.copy_sql.format(table=self.table,s3_bucket=self.s3_bucket,s3_key=s3_key_formatted,access_key=credentials.access_key,secret_key=credentials.secret_key,jsonpath=self.jsonpath,region=self.region)
+        self.log.info('Executing Load Copy Data into:{}'.format(self.table))
         redshift.run(final_copy_sql)
